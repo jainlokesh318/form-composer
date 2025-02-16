@@ -1,4 +1,5 @@
 import { Route, Routes, Link } from 'react-router'
+import FormBuilder from './pages/FormBuilder/FormBuilder'
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
           <Link to="/builder" className="text-blue-500">Create New Form</Link>
         </nav>
         <Routes>
+          <Route path="/builder" element={<FormBuilder />} />
           <Route path="/" element={<h1>Welcome to Form Builder App</h1>} />
         </Routes>
       </div>
