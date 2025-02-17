@@ -18,7 +18,7 @@ function getNewFormElement(id: number): Question {
 
 function FormBuilder({ form: formFromDb }: { form?: Form }) {
     const [form, setForm] = useState<Form>(formFromDb || {
-        id: '1',
+        id: crypto.randomUUID(),
         title: 'Form Title',
         description: 'Form Description',
         questions: [getNewFormElement(1)]
