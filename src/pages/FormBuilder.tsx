@@ -6,6 +6,7 @@ import { Form } from "../types/Form"
 import { useSaveForm } from "../hooks/useSaveForm"
 import { Link } from "react-router"
 import { ShareIcon } from "@heroicons/react/24/solid"
+import Spinner from "../components/core/Spinner"
 
 function getNewFormElement(id: number): Question {
     return {
@@ -48,8 +49,8 @@ function FormBuilder({ form: formFromDb }: { form?: Form }) {
     return (<div>
         <div className="flex justify-between items-center">
             <Button variant="outline" onClick={handleAddQuestion}>Add Question</Button>
-            <div className="flex gap-2">
-                {isSaving && <div>Saving...</div>}
+            <div className="flex gap-2 items-center">
+                {isSaving && <div className="flex gap-2 items-center"><Spinner />Saving...</div>}
                 {error && <div>{error}</div>}
                 <Link to={`/form/${form.id}`}>
                     <ShareIcon className="w-6 h-6 cursor-pointer" />
