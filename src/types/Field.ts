@@ -16,5 +16,3 @@ export interface SelectOption {
 export interface SelectField {
     options: SelectOption[]
 }
-
-export type FieldType = NumberField | TextField | SelectField
