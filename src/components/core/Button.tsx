@@ -1,6 +1,5 @@
 import React from "react";
-import Spinner from "../icons/Spinner";
-
+import { ArrowPathIcon } from "@heroicons/react/24/solid";
 function cn(...classes: (string | undefined | null | boolean)[]): string {
     return classes.filter(Boolean).join(" ");
 }
@@ -49,7 +48,7 @@ const Button: React.FC<ButtonProps> = ({
       disabled={loading}
       {...props}
     >
-      {loading ? <Spinner /> : icon}
+      {loading ? <ArrowPathIcon className="w-6 h-6 animate-spin" /> : icon}
       {children}
     </button>
   );
