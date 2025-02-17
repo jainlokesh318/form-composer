@@ -1,0 +1,70 @@
+import { useEffect, useState } from "react";
+import { Question, QuestionType, questionTypeLabels } from "../types/Question";
+import { SelectField } from "../types/Field";
+import SelectOptions from "../components/util/SelectOptions";
+import { TrashIcon } from '@heroicons/react/24/solid'
+
+function QuestionBuilder({ question, onDelete, onUpdate }: { question: Question, onDelete: (id: string) => void, onUpdate: (id: string, question: Question) => void }) {
+    const [questionState, setQuestionState] = useState<Question>(question)
+
+    useEffect(() => {
+        onUpdate(questionState.id, questionState)
+    }, [questionState])
+    
+    const handleChange = (property: keyof Pick<Question, 'id' | 'title' | 'required' | 'type'>, value: string | boolean) => {
+        if (property === 'type' && value === 'select') {
+            setQuestionState({
+                ...questionState,
+                [property]: value,
+                options: [{ label: 'Option 1', value: 'option-1' }]
+            })
+        } else {
+            setQuestionState({ ...questionState, [property]: value })
+        }
+    }
+
+    const handleOptionsChange = (options: SelectField['options']) => {
+        if (questionState.type === 'select') {
+            setQuestionState({
+                ...questionState,
+                options
+            })
+        }
+    }
+
+    return <div className="flex flex-col gap-2 border-2 border-gray-300 rounded-md p-2 my-2">
+        <div className="flex justify-between">
+        <div className="flex-1 flex flex-row gap-2 items-center">
+            <label htmlFor="title ">Question Title</label>
+                <input type="text" id="title" value={questionState.title} onChange={(e) => handleChange('title', e.target.value)} placeholder="Enter Question Title" className="border-2 border-gray-300 rounded-md p-1 w-1/3" />
+            </div>
+            <TrashIcon className="w-6 h-6 text-red-500 cursor-pointer" onClick={() => onDelete(questionState.id)} />
+        </div>
+        <div className="flex gap-2">
+            <div className="flex flex-row gap-2 items-center">
+                <label htmlFor="description">Question Type</label>
+                <select id="type" value={questionState.type} onChange={(e) => handleChange('type', e.target.value)} className="border-2 border-gray-300 rounded-md p-1">
+                    {(Object.keys(questionTypeLabels) as QuestionType[]).map(type => (
+                        <option key={type} value={type}>
+                            {questionTypeLabels[type]}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <div className="flex flex-row gap-2 items-center">
+                <input type="checkbox" id="required" checked={questionState.required} onChange={(e) => handleChange('required', e.target.checked)} />
+                <label htmlFor="required">Required</label>
+            </div>
+        </div>
+        {
+            questionState.type === 'select' && (
+                <SelectOptions 
+                    question={questionState as Question & SelectField} 
+                    onChange={handleOptionsChange}
+                />
+            )
+        }
+    </div>
+}
+
+export default QuestionBuilder
