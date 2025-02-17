@@ -9,12 +9,9 @@ A **React + TypeScript** form builder and renderer application that allows users
 ### Form Builder  
 - Add text, number, and select fields dynamically  
 - Auto-save changes  
-- Basic validation to prevent invalid inputs  
 
 ### Form Renderer  
-- Render forms based on the generated schema  
-- Prefill values if provided in the schema  
-- Validate form fields against the schema  
+- Render forms based on the generated schema
 
 ### Technical Highlights  
 - **React + TypeScript** for end-to-end type safety  
@@ -29,20 +26,25 @@ A **React + TypeScript** form builder and renderer application that allows users
    git clone https://github.com/yourusername/form-composer.git
    cd form-composer
 
-2. **Install Dependencies
+2. **Install Dependencies**
    ```bash    
    npm install
    # or
    yarn install
 
-3. **Run the Development Server
+3. **Run the Development Server**
    ```bash
    npm run dev
    # or
    yarn dev
 
-4. **Build for Production
+4. **Build for Production**
    ```bash
    npm run build
    # or
    yarn build
+
+### Todo / Upcoming Features 
+- 🚧 Advanced Validations (Field-level & form-level validations)
+- 🔄 Form Response Revisions (Version control for responses)
+- 🌍 Multi-Step Forms (For complex workflows)
