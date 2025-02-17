@@ -21,9 +21,9 @@ function FormsList() {
     return <div className="flex flex-col gap-2 items-center">
         {forms.length === 0 ? <div>Create a form to get started</div> : <div className="underline">Forms Created By You</div>}
         <div className="flex gap-2 justify-center">
-            {forms.map((form) => (
+            {forms.map((form, index) => (
                 <Link to={`/builder/${form.id}`} key={form.id} className="border border-2 p-4 rounded-md hover:shadow-md">
-                    <h1>{form.title}</h1>
+                    <h1>{'Form ' + (index + 1)}</h1>
                 </Link>
             ))}
         </div>
