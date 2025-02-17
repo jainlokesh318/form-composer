@@ -4,6 +4,7 @@ import Button from './components/core/Button'
 import { ArrowLeftIcon } from '@heroicons/react/24/solid'
 import HomePage from './pages/HomePage'
 import ExistingFormBuilder from './pages/ExistingFormBuilder'
+import FormRenderer from './pages/FormRenderer'
 
 function App() {
  
@@ -22,6 +23,7 @@ function App() {
           <Route path="/builder" element={<FormBuilder />} />
           <Route path="/builder/:id" element={<ExistingFormBuilder />} />
           <Route path="/" element={<HomePage />} />
+          <Route path="/form/:id" element={<FormRenderer />} />
         </Routes>
       </div>
   )
