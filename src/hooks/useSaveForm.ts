@@ -19,11 +19,6 @@ export function useSaveForm(): UseSaveForm {
             // Simulate API delay (random between 500ms and 2000ms)
             await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 1500))
 
-            // Randomly fail 10% of the time
-            if (Math.random() < 0.1) {
-                throw new Error('Network error: Failed to connect to server')
-            }
-
             // Validate form
             if (!form.questions.length) {
                 throw new Error('At least one question is required')
