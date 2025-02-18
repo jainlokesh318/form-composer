@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Question, QuestionType, questionTypeLabels } from "../../types/Question";
-import { SelectField } from "../../types/Field";
+import { NumberField, SelectField, TextField } from "../../types/Field";
 import SelectOptions from "../../components/util/SelectOptions";
 import { TrashIcon } from '@heroicons/react/24/solid'
+import TextOptions from "../../components/util/TextOptions";
+import NumberOptions from "../../components/util/NumberOptions";
 
 function QuestionBuilder({ question, onDelete, onUpdate }: { question: Question, onDelete: (id: string) => void, onUpdate: (id: string, question: Question) => void }) {
     const [questionState, setQuestionState] = useState<Question>(question)
@@ -23,7 +25,7 @@ function QuestionBuilder({ question, onDelete, onUpdate }: { question: Question,
         }
     }
 
-    const handleOptionsChange = (options: SelectField['options']) => {
+    const handleSelectOptionsChange = (options: SelectField['options']) => {
         if (questionState.type === 'select') {
             setQuestionState({
                 ...questionState,
@@ -32,10 +34,47 @@ function QuestionBuilder({ question, onDelete, onUpdate }: { question: Question,
         }
     }
 
+    const handleTextOptionsChange = (question: Question & TextField) => {
+        setQuestionState(question)
+    }
+
+    const handleNumberOptionsChange = (question: Question & NumberField) => {
+        setQuestionState(question)
+    }
+
+    const renderQuestionOptions = () => {
+        switch (questionState.type) {
+            case 'select':
+                return (
+                    <SelectOptions 
+                        question={questionState as Question & SelectField} 
+                        onChange={handleSelectOptionsChange}
+                    />
+                )
+            case 'text':
+                return (
+                    <TextOptions 
+                        question={questionState as Question & TextField} 
+                        onChange={handleTextOptionsChange}
+                    />
+                )
+            case 'number':
+                return (
+                    <NumberOptions 
+                        question={questionState as Question & NumberField} 
+                        onChange={handleNumberOptionsChange}
+                    />
+                )
+            default: {
+                return null
+            }
+        }
+    }
+
     return <div className="flex flex-col gap-2 border-2 border-gray-300 rounded-md p-2 my-2">
         <div className="flex justify-between">
-        <div className="flex-1 flex flex-row gap-2 items-center">
-            <label htmlFor="title ">Question Title</label>
+            <div className="flex-1 flex flex-row gap-2 items-center">
+                <label htmlFor="title ">Question Title</label>
                 <input type="text" id="title" value={questionState.title} onChange={(e) => handleChange('title', e.target.value)} placeholder="Enter Question Title" className="border-2 border-gray-300 rounded-md p-1 w-1/3" />
             </div>
             <TrashIcon className="w-6 h-6 text-red-500 cursor-pointer" onClick={() => onDelete(questionState.id)} />
@@ -56,14 +95,7 @@ function QuestionBuilder({ question, onDelete, onUpdate }: { question: Question,
                 <label htmlFor="required">Required</label>
             </div>
         </div>
-        {
-            questionState.type === 'select' && (
-                <SelectOptions 
-                    question={questionState as Question & SelectField} 
-                    onChange={handleOptionsChange}
-                />
-            )
-        }
+        {renderQuestionOptions()}
     </div>
 }
 
