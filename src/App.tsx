@@ -25,6 +25,9 @@ function AuthLayout() {
 function PublicLayout() {
     return (
         <div className="p-4">
+            <nav className="mb-4 flex gap-4 w-full items-center justify-between">
+                <Link to="/" className="text-blue-500">Form Composer</Link>
+            </nav>
             <Outlet />
         </div>
     )
@@ -36,7 +39,6 @@ function App() {
             <Route element={<PublicLayout />}>
                 <Route path="/form/:id" element={<FormView />} />
             </Route>
-
             <Route element={<AuthLayout />}>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/builder" element={<FormBuilder />} />
