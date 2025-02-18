@@ -5,9 +5,18 @@ interface FormAnswers {
     [questionId: string]: string | number | string[] | null
 }
 
-export function useFormValidation(form: Form, answers: FormAnswers) {
-    const [isValid, setIsValid] = useState(false)
+interface ValidationState {
+    isValid: boolean
+    errors: { [questionId: string]: string }
+    touchedFields: Set<string>
+    setFieldTouched: (fieldId: string) => void
+    setAllFieldsTouched: () => void
+}
+
+export function useFormValidation(form: Form, answers: FormAnswers): ValidationState {
     const [errors, setErrors] = useState<{ [questionId: string]: string }>({})
+    const [touchedFields, setTouchedFields] = useState<Set<string>>(new Set())
+    const [isValid, setIsValid] = useState(false)
 
     useEffect(() => {
         const newErrors: { [questionId: string]: string } = {}
@@ -15,13 +24,11 @@ export function useFormValidation(form: Form, answers: FormAnswers) {
         form.questions.forEach((question) => {
             const answer = answers[question.id]
 
-            // Check required fields
             if (question.required && (answer === null || answer === undefined || answer === '')) {
                 newErrors[question.id] = 'This field is required'
                 return
             }
 
-            // Type-specific validations
             if (answer !== null && answer !== undefined) {
                 switch (question.type) {
                     case 'number': {
@@ -59,5 +66,19 @@ export function useFormValidation(form: Form, answers: FormAnswers) {
         setIsValid(Object.keys(newErrors).length === 0)
     }, [form, answers])
 
-    return { isValid, errors }
+    const setFieldTouched = (fieldId: string) => {
+        setTouchedFields(prev => new Set(prev).add(fieldId))
+    }
+
+    const setAllFieldsTouched = () => {
+        setTouchedFields(new Set(form.questions.map(q => q.id)))
+    }
+
+    return {
+        isValid,
+        errors,
+        touchedFields,
+        setFieldTouched,
+        setAllFieldsTouched
+    }
 }

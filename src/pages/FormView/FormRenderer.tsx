@@ -10,16 +10,26 @@ interface FormRendererProps {
 
 function FormRenderer({ form }: FormRendererProps) {
     const [answers, setAnswers] = useState<{ [questionId: string]: any }>({})
-    const { isValid, errors } = useFormValidation(form, answers)
+    const { 
+        isValid, 
+        errors, 
+        touchedFields, 
+        setFieldTouched, 
+        setAllFieldsTouched 
+    } = useFormValidation(form, answers)
 
     const handleAnswerChange = (questionId: string, value: any) => {
         setAnswers(prev => ({
             ...prev,
             [questionId]: value
         }))
+        setFieldTouched(questionId)
     }
 
     const handleSubmit = () => {
+        // Show all errors on submit attempt
+        setAllFieldsTouched() 
+        
         if (isValid) {
             console.log('Submitting answers:', answers)
         }
@@ -29,20 +39,21 @@ function FormRenderer({ form }: FormRendererProps) {
         <div className="flex flex-col gap-4 w-1/2 mx-auto">
             {form.questions.map((question) => (
                 <div key={question.id}>
-                    <QuestionRenderer
-                        question={question}
+                    <QuestionRenderer 
+                        question={question} 
                         value={answers[question.id]}
-                        onChange={(value) => handleAnswerChange(question.id, value)} 
+                        onChange={(value) => handleAnswerChange(question.id, value)}
+                        onBlur={() => setFieldTouched(question.id)}
                     />
-                    {errors[question.id] && (
+                    {touchedFields.has(question.id) && errors[question.id] && (
                         <div className="text-red-500 text-sm mt-1">
                             {errors[question.id]}
                         </div>
                     )}
                 </div>
             ))}
-            <Button
-                onClick={handleSubmit}
+            <Button 
+                onClick={handleSubmit} 
                 variant="outline"
                 disabled={!isValid}
             >
