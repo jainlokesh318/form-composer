@@ -2,6 +2,7 @@ import { useState } from "react"
 import { SelectField } from "../../types/Field"
 import { Question } from "../../types/Question"
 import Button from "../core/Button"
+import TextInput from "../core/TextInput"
 interface SelectOptionsProps {
     question: Question & SelectField
     onChange: (options: SelectField['options']) => void
@@ -36,27 +37,13 @@ function SelectOptions({ question, onChange }: SelectOptionsProps) {
     return (
         <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-2 items-center">
-                <label htmlFor="newOption">Add Option</label>
-                <input
-                    type="text"
-                    id="newOption"
-                    value={newOption}
-                    onChange={(e) => setNewOption(e.target.value)}
-                    className="border-2 border-gray-300 rounded-md p-1 flex-1"
-                    placeholder="Enter new option"
-                />
+                <TextInput value={newOption} onChange={(value) => setNewOption(value)} placeholder="Enter new option" label="Add Option" />
                 <Button variant="secondary" onClick={handleAddOption} disabled={!newOption.trim()}>Add</Button> 
             </div>
-
             <div className="flex flex-col gap-2">
                 {question.options.map((option, index) => (
                     <div key={index} className="flex flex-row gap-2 items-center pl-10">
-                        <input
-                            type="text"
-                            value={option.label}
-                            onChange={(e) => handleUpdateOption(index, e.target.value)}
-                            className="border-2 border-gray-300 rounded-md p-1 flex-1"
-                        />
+                        <TextInput value={option.label} onChange={(value) => handleUpdateOption(index, value)} placeholder="Enter option" label={`Option ${index+1}`} />
                         <Button variant="secondary" onClick={() => handleDeleteOption(index)}>Delete</Button>   
                     </div>
                 ))}

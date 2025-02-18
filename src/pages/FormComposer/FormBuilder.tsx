@@ -7,6 +7,8 @@ import { useSaveForm } from "../../hooks/useSaveForm"
 import { Link } from "react-router"
 import { ShareIcon } from "@heroicons/react/24/solid"
 import Spinner from "../../components/core/Spinner"
+import TextInput from "../../components/core/TextInput"
+import TextAreaInput from "../../components/core/TextAreaInput"
 
 function getNewFormElement(id: number): Question {
     return {
@@ -25,7 +27,7 @@ function FormBuilder({ form: formFromDb }: { form?: Form }) {
         questions: [getNewFormElement(1)]
     })
     const { saveForm, isLoading: isSaving, error } = useSaveForm();
-
+    
     useEffect(() => {
         saveForm(form)
     }, [form])
@@ -65,20 +67,8 @@ function FormBuilder({ form: formFromDb }: { form?: Form }) {
             </div>
         </div>
          <div className="space-y-2">
-                <input
-                    type="text"
-                    value={form.title}
-                    onChange={(e) => handleFormMetadataChange('title', e.target.value)}
-                    className="text-2xl font-bold w-full border-2 border-gray-300 focus:border-blue-500 px-2 py-1 rounded-md"
-                    placeholder="Enter form title (optional)"
-                />
-                <textarea
-                    value={form.description}
-                    onChange={(e) => handleFormMetadataChange('description', e.target.value)}
-                    className="w-full border-2  border-gray-300 focus:border-blue-500 outline-none px-2 py-1 resize-none rounded-md"
-                    placeholder="Enter form description (optional)"
-                    rows={2}
-                />
+                <TextInput value={form.title} onChange={(value) => handleFormMetadataChange('title', value)} placeholder="Enter form title (optional)" label="Title" />
+                <TextAreaInput value={form.description} onChange={(value) => handleFormMetadataChange('description', value)} placeholder="Enter form description (optional)" label="Description" />
             </div>
         <div>
             {form.questions.map((question) => (

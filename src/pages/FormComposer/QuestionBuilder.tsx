@@ -5,6 +5,8 @@ import SelectOptions from "../../components/util/SelectOptions";
 import { TrashIcon } from '@heroicons/react/24/solid'
 import TextOptions from "../../components/util/TextOptions";
 import NumberOptions from "../../components/util/NumberOptions";
+import TextInput from "../../components/core/TextInput";
+import CheckBoxInput from "../../components/core/CheckBoxInput";
 
 function QuestionBuilder({ question, onDelete, onUpdate }: { question: Question, onDelete: (id: string) => void, onUpdate: (id: string, question: Question) => void }) {
     const [questionState, setQuestionState] = useState<Question>(question)
@@ -73,10 +75,7 @@ function QuestionBuilder({ question, onDelete, onUpdate }: { question: Question,
 
     return <div className="flex flex-col gap-2 border-2 border-gray-300 rounded-md p-2 my-2">
         <div className="flex justify-between">
-            <div className="flex-1 flex flex-row gap-2 items-center">
-                <label htmlFor="title ">Question Title</label>
-                <input type="text" id="title" value={questionState.title} onChange={(e) => handleChange('title', e.target.value)} placeholder="Enter Question Title" className="border-2 border-gray-300 rounded-md p-1 w-1/3" />
-            </div>
+            <TextInput value={questionState.title} onChange={(value) => handleChange('title', value)} placeholder="Enter Question Title" label="Question Title" />
             <TrashIcon className="w-6 h-6 text-red-500 cursor-pointer" onClick={() => onDelete(questionState.id)} />
         </div>
         <div className="flex gap-2">
@@ -90,10 +89,7 @@ function QuestionBuilder({ question, onDelete, onUpdate }: { question: Question,
                     ))}
                 </select>
             </div>
-            <div className="flex flex-row gap-2 items-center">
-                <input type="checkbox" id="required" checked={questionState.required} onChange={(e) => handleChange('required', e.target.checked)} />
-                <label htmlFor="required">Required</label>
-            </div>
+            <CheckBoxInput value={questionState.required} onChange={(value) => handleChange('required', value)} label="Required" />
         </div>
         {renderQuestionOptions()}
     </div>

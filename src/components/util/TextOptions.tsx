@@ -1,20 +1,13 @@
 import { TextField } from "../../types/Field"
 import { Question } from "../../types/Question"
+import NumberInput from "../core/NumberInput"
+import TextInput from "../core/TextInput"
 
 function TextOptions({ question, onChange }: { question: Question & TextField, onChange: (question: Question & TextField) => void }) {
     return <div className="flex gap-2 flex-wrap">
-        <div className="flex flex-row gap-2 items-center">
-            <label htmlFor="minLength">Min Length</label>
-            <input placeholder="(optional) Minimum Length" className="border-2 border-gray-300 focus:border-blue-500 rounded-md px-2 py-1" type="number" id="minLength" value={question.minLength} onChange={(e) => onChange({ ...question, minLength: parseInt(e.target.value) })} />
-        </div>
-        <div className="flex flex-row gap-2 items-center">
-            <label htmlFor="maxLength">Max Length</label>
-            <input placeholder="(optional) Maximum Length" className="border-2 border-gray-300 focus:border-blue-500 rounded-md px-2 py-1" type="number" id="maxLength" value={question.maxLength} onChange={(e) => onChange({ ...question, maxLength: parseInt(e.target.value) })} />
-        </div>
-        <div className="flex flex-row gap-2 items-center">
-            <label htmlFor="pattern">Pattern</label>
-            <input placeholder="(optional) Pattern" className="border-2 border-gray-300 focus:border-blue-500 rounded-md px-2 py-1" type="text" id="pattern" value={question.pattern} onChange={(e) => onChange({ ...question, pattern: e.target.value })} />
-        </div>
+        <NumberInput value={question.minLength} onChange={(value) => onChange({ ...question, minLength: value })} placeholder="(optional) Minimum Length" label="Min Length" />
+        <NumberInput value={question.maxLength} onChange={(value) => onChange({ ...question, maxLength: value })} placeholder="(optional) Maximum Length" label="Max Length" />
+        <TextInput value={question.pattern} onChange={(value) => onChange({ ...question, pattern: value })} placeholder="(optional) Pattern" label="Pattern" />
     </div>
 }       
 

@@ -1,3 +1,5 @@
+import NumberInput from "../../components/core/NumberInput"
+import TextInput from "../../components/core/TextInput"
 import { Question } from "../../types/Question"
 
 interface QuestionRendererProps {
@@ -18,30 +20,27 @@ function QuestionRenderer({ question, value, onChange, onBlur }: QuestionRendere
     switch (question.type) {
         case 'text':
             return (
-                <div>
-                    {renderLabel(question)}
-                    <input 
-                        type="text"
+                    <TextInput 
+                        orientation="vertical"
                         value={value || ''}
-                        onChange={(e) => {
-                            onChange(e.target.value)}}
+                        onChange={onChange}
                         onBlur={onBlur}
-                        className="border-2 border-gray-300 rounded-md p-1 w-full"
+                        label={question.title}
+                        placeholder=""
+                        required={question.required}
                     />
-                </div>
             )
         case 'number':
             return (
-                <div>
-                    {renderLabel(question)}
-                    <input 
-                        type="number"
+                   <NumberInput 
+                        orientation="vertical"
                         value={value || ''}
-                        onChange={(e) => onChange(e.target.valueAsNumber)}
+                        onChange={onChange}
                         onBlur={onBlur}
-                        className="border-2 border-gray-300 rounded-md p-1 w-full"
+                        label={question.title}
+                        placeholder=""
+                        required={question.required}
                     />
-                </div>
             )
         case 'select':
             return (
@@ -63,7 +62,7 @@ function QuestionRenderer({ question, value, onChange, onBlur }: QuestionRendere
                 </div>
             )
         default: {
-            return <div>{'Unknown question type'}</div>
+            return null
         }
     }
 }
