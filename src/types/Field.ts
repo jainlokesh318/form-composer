@@ -6,6 +6,7 @@ export interface NumberField {
 export interface TextField {
     maxLength?: number
     minLength?: number
+    pattern?: string
 }
 
 export interface SelectOption {
