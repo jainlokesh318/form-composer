@@ -6,6 +6,7 @@ import { ArrowLeftIcon } from '@heroicons/react/24/solid'
 import Button from './components/core/Button'
 import FormBuilder from './pages/FormComposer/FormBuilder'
 import { ToastProvider } from './contexts/ToastContext'
+import SuccessPage from './pages/SuccessPage'
 
 function AuthLayout() {
     return (
@@ -40,6 +41,7 @@ function App() {
         <Routes>
             <Route element={<PublicLayout />}>
                 <Route path="/form/:id" element={<FormView />} />
+                <Route path="/success" element={<SuccessPage />} />
             </Route>
             <Route element={<AuthLayout />}>
                 <Route path="/" element={<HomePage />} />
