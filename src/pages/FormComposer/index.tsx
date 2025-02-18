@@ -1,10 +1,10 @@
 import { useParams } from "react-router"
-import { useGetFormById } from "../hooks/useGetFormById"
+import { useGetFormById } from "../../hooks/useGetFormById"
 import { useEffect } from "react"
-import Spinner from "../components/core/Spinner"
+import Spinner from "../../components/core/Spinner"
 import FormBuilder from "./FormBuilder"
 
-function ExistingFormBuilder() {
+function FormComposer() {
     const { form, fetchFormById, isLoading: isLoadingForm } = useGetFormById()
     const { id } = useParams()
 
@@ -25,4 +25,4 @@ function ExistingFormBuilder() {
     return <div>Form not found</div>
 }
 
-export default ExistingFormBuilder
+export default FormComposer

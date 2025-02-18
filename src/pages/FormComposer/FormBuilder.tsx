@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
-import { Question } from "../types/Question"
-import Button from "../components/core/Button"
+import { Question } from "../../types/Question"
+import Button from "../../components/core/Button"
 import QuestionBuilder from "./QuestionBuilder"
-import { Form } from "../types/Form"
-import { useSaveForm } from "../hooks/useSaveForm"
+import { Form } from "../../types/Form"
+import { useSaveForm } from "../../hooks/useSaveForm"
 import { Link } from "react-router"
 import { ShareIcon } from "@heroicons/react/24/solid"
-import Spinner from "../components/core/Spinner"
+import Spinner from "../../components/core/Spinner"
 
 function getNewFormElement(id: number): Question {
     return {

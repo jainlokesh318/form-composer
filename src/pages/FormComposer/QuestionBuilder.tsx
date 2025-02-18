@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Question, QuestionType, questionTypeLabels } from "../types/Question";
-import { SelectField } from "../types/Field";
-import SelectOptions from "../components/util/SelectOptions";
+import { Question, QuestionType, questionTypeLabels } from "../../types/Question";
+import { SelectField } from "../../types/Field";
+import SelectOptions from "../../components/util/SelectOptions";
 import { TrashIcon } from '@heroicons/react/24/solid'
 
 function QuestionBuilder({ question, onDelete, onUpdate }: { question: Question, onDelete: (id: string) => void, onUpdate: (id: string, question: Question) => void }) {
