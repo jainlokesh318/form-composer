@@ -10,12 +10,12 @@ interface FormRendererProps {
 
 function FormRenderer({ form }: FormRendererProps) {
     const [answers, setAnswers] = useState<{ [questionId: string]: any }>({})
-    const { 
-        isValid, 
-        errors, 
-        touchedFields, 
-        setFieldTouched, 
-        setAllFieldsTouched 
+    const {
+        isValid,
+        errors,
+        touchedFields,
+        setFieldTouched,
+        setAllFieldsTouched
     } = useFormValidation(form, answers)
 
     const handleAnswerChange = (questionId: string, value: any) => {
@@ -28,8 +28,8 @@ function FormRenderer({ form }: FormRendererProps) {
 
     const handleSubmit = () => {
         // Show all errors on submit attempt
-        setAllFieldsTouched() 
-        
+        setAllFieldsTouched()
+
         if (isValid) {
             console.log('Submitting answers:', answers)
         }
@@ -37,10 +37,12 @@ function FormRenderer({ form }: FormRendererProps) {
 
     return (
         <div className="flex flex-col gap-4 w-1/2 mx-auto">
+            <div className="text-2xl font-bold">{form.title}</div>
+            <div className="text-sm text-gray-500">{form.description}</div>
             {form.questions.map((question) => (
                 <div key={question.id}>
-                    <QuestionRenderer 
-                        question={question} 
+                    <QuestionRenderer
+                        question={question}
                         value={answers[question.id]}
                         onChange={(value) => handleAnswerChange(question.id, value)}
                         onBlur={() => setFieldTouched(question.id)}
@@ -52,13 +54,14 @@ function FormRenderer({ form }: FormRendererProps) {
                     )}
                 </div>
             ))}
-            <Button 
-                onClick={handleSubmit} 
-                variant="outline"
-                disabled={!isValid}
-            >
-                Submit
-            </Button>
+            <div className="flex justify-end">
+                <Button
+                    onClick={handleSubmit}
+                    disabled={!isValid}
+                >
+                    Submit
+                </Button>
+            </div>
         </div>
     )
 }
