@@ -5,6 +5,7 @@ import FormView from './pages/FormView'
 import { ArrowLeftIcon } from '@heroicons/react/24/solid'
 import Button from './components/core/Button'
 import FormBuilder from './pages/FormComposer/FormBuilder'
+import { ToastProvider } from './contexts/ToastContext'
 
 function AuthLayout() {
     return (
@@ -35,6 +36,7 @@ function PublicLayout() {
 
 function App() {
     return (
+        <ToastProvider>
         <Routes>
             <Route element={<PublicLayout />}>
                 <Route path="/form/:id" element={<FormView />} />
@@ -42,9 +44,10 @@ function App() {
             <Route element={<AuthLayout />}>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/builder" element={<FormBuilder />} />
-                <Route path="/builder/:id" element={<FormComposer />} />
-            </Route>
-        </Routes>
+                    <Route path="/builder/:id" element={<FormComposer />} />
+                </Route>
+            </Routes>
+        </ToastProvider>
     )
 }
 
