@@ -3,6 +3,10 @@ import QuestionRenderer from "./QuestionRenderer"
 import Button from "../../components/core/Button"
 import { useState } from "react"
 import { useFormValidation } from "../../hooks/useFormValidation"
+import { useToast } from "../../contexts/ToastContext"
+import { useSubmitResponse } from "../../hooks/useSubmitResponse"
+import Spinner from "../../components/core/Spinner"
+import { useNavigate } from "react-router"
 
 interface FormRendererProps {
     form: Form
@@ -17,6 +21,32 @@ function FormRenderer({ form }: FormRendererProps) {
         setFieldTouched,
         setAllFieldsTouched
     } = useFormValidation(form, answers)
+    const { showToast } = useToast()
+    const navigate = useNavigate()
+    const { submitResponse, isLoading } = useSubmitResponse()
+
+    const handleSubmit = async () => {
+         // Show all errors on submit attempt
+        setAllFieldsTouched()
+        
+        if (isValid) {
+            try {
+                await submitResponse(form, answers)
+                showToast('Form submitted successfully!', 'success')
+                navigate('/success', {
+                    state: {
+                        formTitle: form.title,
+                        formId: form.id,
+                        fromSubmission: true
+                    },
+                    replace: true
+                })
+            } catch (err) {
+                showToast(err instanceof Error ? err.message : 'Failed to submit form', 'error')
+            }
+        }
+    }
+
 
     const handleAnswerChange = (questionId: string, value: any) => {
         setAnswers(prev => ({
@@ -24,15 +54,6 @@ function FormRenderer({ form }: FormRendererProps) {
             [questionId]: value
         }))
         setFieldTouched(questionId)
-    }
-
-    const handleSubmit = () => {
-        // Show all errors on submit attempt
-        setAllFieldsTouched()
-
-        if (isValid) {
-            console.log('Submitting answers:', answers)
-        }
     }
 
     return (
@@ -57,9 +78,9 @@ function FormRenderer({ form }: FormRendererProps) {
             <div className="flex justify-end">
                 <Button
                     onClick={handleSubmit}
-                    disabled={!isValid}
+                    disabled={!isValid || isLoading}
                 >
-                    Submit
+                    {isLoading ? <div className="flex items-center gap-2"><Spinner /> Submitting...</div> : 'Submit'}
                 </Button>
             </div>
         </div>
