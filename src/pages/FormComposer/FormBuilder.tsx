@@ -69,13 +69,13 @@ function FormBuilder({ form: formFromDb }: { form?: Form }) {
                     type="text"
                     value={form.title}
                     onChange={(e) => handleFormMetadataChange('title', e.target.value)}
-                    className="text-2xl font-bold w-full border-2 border-transparent hover:border-gray-300 focus:border-blue-500 px-2 py-1"
+                    className="text-2xl font-bold w-full border-2 border-gray-300 focus:border-blue-500 px-2 py-1 rounded-md"
                     placeholder="Enter form title (optional)"
                 />
                 <textarea
                     value={form.description}
                     onChange={(e) => handleFormMetadataChange('description', e.target.value)}
-                    className="w-full border-2 border-transparent hover:border-gray-300 focus:border-blue-500 outline-none px-2 py-1 resize-none"
+                    className="w-full border-2  border-gray-300 focus:border-blue-500 outline-none px-2 py-1 resize-none rounded-md"
                     placeholder="Enter form description (optional)"
                     rows={2}
                 />
