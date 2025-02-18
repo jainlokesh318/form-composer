@@ -1,33 +1,45 @@
-import { useEffect } from "react"
 import { useGetForms } from "../hooks/useGetForms"
-import { Link } from "react-router"
+import FormCard from "../components/util/FormCard"
 import Spinner from "../components/core/Spinner"
+import { useEffect } from "react"
+
 function FormsList() {
-    const { forms, fetchForms, isLoading: isFetchingForms, error } = useGetForms()
+    const { forms, isLoading, error, fetchForms } = useGetForms()
 
     useEffect(() => {
         fetchForms()
     }, [])
 
-
-    if (isFetchingForms) {
-        return <Spinner />
+    if (isLoading) {
+        return <div className="flex justify-center"><Spinner /></div>
     }
 
     if (error) {
-        return <div>Error fetching forms</div>
+        return (
+            <div className="text-red-500 text-center">
+                {error}
+            </div>
+        )
     }
 
-    return <div className="flex flex-col gap-2 items-center">
-        {forms.length === 0 ? <div>Create a form to get started</div> : <div className="underline">Forms Created By You</div>}
-        <div className="flex gap-2 justify-center">
-            {forms.map((form, index) => (
-                <Link to={`/builder/${form.id}`} key={form.id} className="border border-2 p-4 rounded-md hover:shadow-md">
-                    <h1>{'Form ' + (index + 1)}</h1>
-                </Link>
-            ))}
+    if (!forms.length) {
+        return (
+            <div className="text-center text-gray-500 py-8">
+                No forms created yet. Create your first form!
+            </div>
+        )
+    }
+
+    return (
+        <div className="flex flex-col gap-4 items-center">
+            <div className="text-2xl font-bold">Forms Created By You</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                {forms.map(form => (
+                    <FormCard key={form.id} form={form} />
+                ))}
+            </div>
         </div>
-    </div>
+    )
 }
 
 export default FormsList
