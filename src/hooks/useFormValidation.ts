@@ -49,6 +49,9 @@ export function useFormValidation(form: Form, answers: FormAnswers): ValidationS
                         if (question.maxLength !== undefined && strValue.length > question.maxLength) {
                             newErrors[question.id] = `Must be at most ${question.maxLength} characters`
                         }
+                        if (question.pattern && !new RegExp(question.pattern).test(strValue)) {
+                            newErrors[question.id] = `Must match the pattern ${question.pattern}`
+                        }
                         break
                     }
                     case 'select': {
